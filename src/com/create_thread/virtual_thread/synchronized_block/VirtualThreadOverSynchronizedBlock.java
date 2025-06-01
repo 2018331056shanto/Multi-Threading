@@ -26,6 +26,7 @@ public class VirtualThreadOverSynchronizedBlock {
     }
 
     public static void main(String[] args) {
+        System.setProperty("jdk.virtualThreadScheduler.parallelism", "1");
 
         final int numberOfVirtualThreads = 1000000; // Don't use 1 million — just enough to show pinning effect
         System.out.println("Running with Java version: " + System.getProperty("java.version"));
@@ -39,7 +40,7 @@ public class VirtualThreadOverSynchronizedBlock {
         for (int i = 0; i < numberOfVirtualThreads; i++) {
 
             final Object obj = new Object();
-            virtualThreadExecutor.execute(() -> {
+            virtualThreadExecutor.submit(() -> {
                 cpuBoundWork();
                 try {
                     cpuBoundWork();
